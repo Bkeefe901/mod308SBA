@@ -148,7 +148,23 @@ console.log(assignments);
 // function that returns total points possible for each assignment id returned from above function. 
 //     Save to variable 'totalAssignmentPoints'
 
+function totalScoreValue(assignments, assignmentArray){
+    let total = 0;
+    assignments.forEach(num => {
+        for(let i = 0; i < assignmentArray.length; i++){
+            let assignmentX = assignmentArray[i]
+            if(num == assignmentX.id){
+               total += assignmentX.points_possible
+                break;
+            }
+        }
+    });
+    return total;
 
+}
+
+let totalScore = totalScoreValue(assignments, assignmentArray);
+console.log(totalScore);
 
 // function that checks submitted_at for each due assignment is before due date. if not return learner id and 
 //     assignment id.
