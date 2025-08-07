@@ -8,7 +8,7 @@ const CourseInfo = {
 const AssignmentGroup = {
   id: 12345,
   name: "Fundamentals of JavaScript",
-  course_id: 351,
+  course_id: 451,
   group_weight: 25,
   assignments: [
     {
@@ -98,7 +98,8 @@ function courseIdCheck(CourseInfo, AssignmentGroup){
 courseIdCheck(CourseInfo, AssignmentGroup);
 
 
-// function that returns array of different student ids. save to variable 'studentArray'
+// function that returns array of different student ids. 
+
 function studentList(LearnerSubmissions){
     let studentArray = [];
     LearnerSubmissions.forEach(submission => {
@@ -112,12 +113,42 @@ function studentList(LearnerSubmissions){
 }
 console.log(studentList(LearnerSubmissions));
 
+// function that returns the assignments array from AssignmentGroup save to variable assignmentArray
+
+function assignmentList(AssignmentGroup){
+    return AssignmentGroup.assignments
+}
+
+const assignmentArray = assignmentList(AssignmentGroup);
+console.log(assignmentArray)
+
+
 
 // function that checks AssignmentGroup[assignments[due_at]] for each assignment and returns array of assignment[id]
-//     whose due_at date was before today. save to variable 'previousAssignments'
+//     whose due_at date was before today. save to variable 'relevantAssignments'
+
+function previousAssignments(assignmentArray){
+    let relevantAssignments = [];
+    assignmentArray.forEach(as => {
+        const dueDate = new Date(as.due_at)
+        const today = new Date();
+        const relevantID = as.id
+        if(dueDate < today){
+            relevantAssignments.push(relevantID)
+        }
+    })
+
+    return relevantAssignments
+
+}
+ 
+let assignments = previousAssignments(assignmentArray);
+console.log(assignments);
 
 // function that returns total points possible for each assignment id returned from above function. 
 //     Save to variable 'totalAssignmentPoints'
+
+
 
 // function that checks submitted_at for each due assignment is before due date. if not return learner id and 
 //     assignment id.
