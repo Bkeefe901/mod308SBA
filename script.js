@@ -8,7 +8,7 @@ const CourseInfo = {
 const AssignmentGroup = {
   id: 12345,
   name: "Fundamentals of JavaScript",
-  course_id: 451,
+  course_id: 351,
   group_weight: 25,
   assignments: [
     {
@@ -85,14 +85,42 @@ const LearnerSubmissions = [
 //              2 (assignment_id): number (score/points_possible)
 
 // function that checks if courseInfo[id] == assignmentGroup[course_id] and throws error if not
+function courseIdCheck(CourseInfo, AssignmentGroup){
+    try{
+        if(CourseInfo['id'] != AssignmentGroup['course_id']){
+            throw new Error(`Assignment Group does not match the course ID`);
+        }
+    } catch(error){
+        console.error("Caught an error: ", error.message);
+    }
+
+}
+courseIdCheck(CourseInfo, AssignmentGroup);
+
+
 // function that returns array of different student ids. save to variable 'studentArray'
+function studentList(LearnerSubmissions){
+    let studentArray = [];
+    LearnerSubmissions.forEach(submission => {
+        const id = submission['learner_id'];
+        if(!studentArray.includes(id)){
+            studentArray.push(id)
+        }
+    });
+    return studentArray;
+
+}
+console.log(studentList(LearnerSubmissions));
+
+
 // function that checks AssignmentGroup[assignments[due_at]] for each assignment and returns array of assignment[id]
 //     whose due_at date was before today. save to variable 'previousAssignments'
+
 // function that returns total points possible for each assignment id returned from above function. 
 //     Save to variable 'totalAssignmentPoints'
+
 // function that checks submitted_at for each due assignment is before due date. if not return learner id and 
 //     assignment id.
-
 
 // function that returns array with sum of scores for each student from the function that returns student ids, for each
 //      assignment id from previously due assignments. Save to variable studentScoreSums.
@@ -114,9 +142,9 @@ function getLearnerData(course, ag, submissions) {
   return result;
 }
 
-const result = getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
+// const result = getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
 
-console.log(result);
+// console.log(result);
 
 
 
