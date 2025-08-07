@@ -76,22 +76,40 @@ const LearnerSubmissions = [
   }
 ];
 
+// Final return is an array objects. Each object represents one student(learner id).
+// // each object contains:
+//              id: number
+//              avg: number ( sum of points earned on assignments due)/(sum of total possible points on assignments
+//                           due AssignmentGroup[assignments[i]][points_possible])
+//              1 (assignment_id): number (score/points_possible)
+//              2 (assignment_id): number (score/points_possible)
+
+// function that checks if courseInfo[id] == assignmentGroup[course_id] and throws error if not
+// function that returns array of different student ids. save to variable 'studentArray'
+// function that checks AssignmentGroup[assignments[due_at]] for each assignment and returns array of assignment[id]
+//     whose due_at date was before today. save to variable 'previousAssignments'
+// function that returns total points possible for each assignment id returned from above function. 
+//     Save to variable 'totalAssignmentPoints'
+// function that checks submitted_at for each due assignment is before due date. if not return learner id and 
+//     assignment id.
+
+
+// function that returns array with sum of scores for each student from the function that returns student ids, for each
+//      assignment id from previously due assignments. Save to variable studentScoreSums.
+//      (This function should check the function for late assignments with student and assignment id and take off
+//      10% from that assignment score before totaling there scores.)
+
+//      
+
+
 function getLearnerData(course, ag, submissions) {
-  // here, we would process this data to achieve the desired result.
-  const result = [
-    {
-      id: 125,
-      avg: 0.985, // (47 + 150) / (50 + 150)
-      1: 0.94, // 47 / 50
-      2: 1.0 // 150 / 150
-    },
-    {
-      id: 132,
-      avg: 0.82, // (39 + 125) / (50 + 150)
-      1: 0.78, // 39 / 50
-      2: 0.833 // late: (140 - 15) / 150
-    }
-  ];
+
+    // loop that returns the object array of students (const result)
+ 
+
+
+
+
 
   return result;
 }
@@ -99,3 +117,24 @@ function getLearnerData(course, ag, submissions) {
 const result = getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
 
 console.log(result);
+
+
+
+
+
+// Expected Answer:
+
+//  const result = [
+//     {
+//       id: 125,
+//       avg: 0.985, // (47 + 150) / (50 + 150)
+//       1: 0.94, // 47 / 50
+//       2: 1.0 // 150 / 150
+//     },
+//     {
+//       id: 132,
+//       avg: 0.82, // (39 + 125) / (50 + 150)
+//       1: 0.78, // 39 / 50
+//       2: 0.833 // late: (140 - 15) / 150
+//     }
+//   ];
