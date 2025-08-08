@@ -195,7 +195,11 @@ function updatedLearnerSubmissions(LearnerSubmissions, assignments){
 let revisedLearnerSubmission = updatedLearnerSubmissions(LearnerSubmissions, assignments);
 console.log(revisedLearnerSubmission);
 
-/* function that goes through our newly created revisedLearnerSubmission and checks each object. Checks submitted_at and compares to due at from object in assignmentArray when assignment_id matches id. if submitted_at is greater it will reduce their score by 10% */
+
+/* function that iterates through revisedLearnerSubmission and creates an object with the learner_id, assignment_id and the
+
+
+///////////////* function that goes through our newly created revisedLearnerSubmission and checks each object. Checks submitted_at and compares to due at from object in assignmentArray when assignment_id matches id. if submitted_at is greater it will reduce their score by 10% */
 
 
 /////////* function that checks submitted_at for each due assignment is before due date. if not return learner id and assignment id.*/
@@ -213,7 +217,11 @@ console.log(revisedLearnerSubmission);
 function getLearnerData(course, ag, submissions) { // loop that returns the object array of students (const result)
     const result = [];
     let personObject = {};
-    for(let i = 0; i < submissions; i++)
+    for(let i = 0; i < students; i++){
+        personObject.id = students[i];
+        personObject.avg = 
+
+    }
     
 
     
