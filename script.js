@@ -136,6 +136,7 @@ function previousAssignments(assignmentArray) {
     if (dueDate < today) {
       assignmentObject.id = as.id
       assignmentObject.due_at = as.due_at
+      assignmentObject.points = as.points_possible
       relevantAssignments.push(assignmentObject);
     }
   })
@@ -145,7 +146,7 @@ function previousAssignments(assignmentArray) {
 }
 
 let assignments = previousAssignments(assignmentArray);
-console.log(assignments);
+console.log(`This is the relevent assignments: `, assignments);
 
 // function that returns total points possible for each assignment id returned from above function. 
 //     Save to variable 'totalAssignmentPoints'
@@ -166,7 +167,7 @@ function totalScoreValue(assignments, assignmentArray) {
 }
 
 let totalScore = totalScoreValue(assignments, assignmentArray);
-console.log(totalScore);
+console.log(`This is the total possible score for all assignments: ${totalScore}`);
 
 
 
@@ -199,7 +200,22 @@ let revisedSubmissions = updatedLearnerSubmissions(LearnerSubmissions, assignmen
 console.log(revisedSubmissions);
 
 
-///// function that iterates through studentList (saved to student variable) and then compares it to each object in revisedLearnerSubmission. If the id matches it adds their notes their score for that assignment and adds them together for their total score. It returns an object array with student_Id, assignment1: score, assignment2: score, and scoreSum.
+// function that iterates through revisedSubmissions and checks the assignment_id against the objects id in releventAssignments if they match it compares the submitted_at date from revisedSubmissions[i].submissions.submitted_at to releventAssignments[i].due_at and if the submitted at date is after the due at date it subtract 10% of the releventAssignments[i].points from revisedSubmissions[i].submissions.score it then pushes that object to a new array called adjustedSubmissions.
+
+function isItLate(revisedSubmissions, relevantAssignments){
+
+}
+
+
+
+
+
+
+
+
+
+
+// function that iterates through studentList (saved to student variable) and then compares it to each object in revisedLearnerSubmission. If the id matches it adds their notes their score for that assignment and adds them together for their total score. It returns an object array with student_Id, assignment1: score, assignment2: score, and scoreSum.
 
 function studentGrades(students, revisedSubmissions) {
   let gradesArray = [];
