@@ -76,14 +76,10 @@ const LearnerSubmissions = [
   }
 ];
 
-// Final return is an array objects. Each object represents one student(learner id).
-// // each object contains:
-//              id: number
-//              avg: number ( sum of points earned on assignments due)/(sum of total possible points on  assignments due AssignmentGroup[assignments[i]][points_possible])
-//              1 (assignment_id): number (score/points_possible)
-//              2 (assignment_id): number (score/points_possible)
+
 
 // function that checks if courseInfo[id] == assignmentGroup[course_id] and throws error if not
+
 function courseIdCheck(CourseInfo, AssignmentGroup) {
   try {
     if (CourseInfo['id'] != AssignmentGroup['course_id']) {
@@ -113,14 +109,20 @@ function studentList(LearnerSubmissions) {
 let students = studentList(LearnerSubmissions);
 console.log(students);
 
+
+
+
 // function that returns the assignments array from AssignmentGroup save to variable assignmentArray
 
 function assignmentList(AssignmentGroup) {
   return AssignmentGroup.assignments
 }
 
-const assignmentArray = assignmentList(AssignmentGroup);
-console.log(assignmentArray)
+// const assignmentArray = assignmentList(AssignmentGroup);
+// console.log(assignmentArray)
+
+
+
 
 
 
@@ -145,8 +147,8 @@ function previousAssignments(assignmentArray) {
 
 }
 
-let assignments = previousAssignments(assignmentArray);
-console.log(`This is the relevent assignments: `, assignments);
+// let assignments = previousAssignments(assignmentArray);
+// console.log(`This is the relevent assignments: `, assignments);
 
 // function that returns total points possible for each assignment id returned from above function. 
 //     Save to variable 'totalAssignmentPoints'
@@ -166,14 +168,14 @@ function totalScoreValue(assignments, assignmentArray) {
 
 }
 
-let totalScore = totalScoreValue(assignments, assignmentArray);
-console.log(`This is the total possible score for all assignments: ${totalScore}`);
+// let totalScore = totalScoreValue(assignments, assignmentArray);
+// console.log(`This is the total possible score for all assignments: ${totalScore}`);
 
 
 
 
 
-/* function that loops through LearnerSubmissions and returns a revisedLearnerSubmission that removes objects assignment_id doesnt match any found in variable 'assignments' */
+// function that loops through LearnerSubmissions and returns a revisedLearnerSubmission that removes objects assignment_id doesnt match any found in variable 'assignments' 
 
 function updatedLearnerSubmissions(LearnerSubmissions, assignments) {
   let revisedLearnerSubmission = [];
@@ -196,11 +198,11 @@ function updatedLearnerSubmissions(LearnerSubmissions, assignments) {
 
 
 
-let revisedSubmissions = updatedLearnerSubmissions(LearnerSubmissions, assignments);
-console.log(revisedSubmissions);
+// let revisedSubmissions = updatedLearnerSubmissions(LearnerSubmissions, assignments);
+// console.log(revisedSubmissions);
 
 
-//////// function that iterates through revisedSubmissions and checks the assignment_id against the objects id in releventAssignments if they match it compares the submitted_at date from revisedSubmissions[i].submissions.submitted_at to releventAssignments[i].due_at and if the submitted at date is after the due at date it subtract 10% of the releventAssignments[i].points from revisedSubmissions[i].submissions.score. It creates a new object that looks like the objects in the learnerSubmissions or revisedSubmissions but only shows learner_id, assignment_id, and score(with the corrected score for late projects) it then pushes that object to a new array called adjustedSubmissions.
+// function that iterates through revisedSubmissions and checks the assignment_id against the objects id in releventAssignments if they match it compares the submitted_at date from revisedSubmissions[i].submissions.submitted_at to releventAssignments[i].due_at and if the submitted at date is after the due at date it subtract 10% of the releventAssignments[i].points from revisedSubmissions[i].submissions.score. It creates a new object that looks like the objects in the learnerSubmissions or revisedSubmissions but only shows learner_id, assignment_id, and score(with the corrected score for late projects) it then pushes that object to a new array called adjustedSubmissions.
 
 function isItLate(revisedSubmissions, relevantAssignments){
   let adjustedSubmissions = [];
@@ -228,30 +230,42 @@ function isItLate(revisedSubmissions, relevantAssignments){
   return adjustedSubmissions;
 }
 
-console.log(`This is the adjusted Learner Submissions`);
-console.log(isItLate(revisedSubmissions, assignments));
-let adjustedSubmissionsArray = isItLate(revisedSubmissions, assignments);
+// console.log(`This is the adjusted Learner Submissions`);
+// console.log(isItLate(revisedSubmissions, assignments));
+// let adjustedSubmissionsArray = isItLate(revisedSubmissions, assignments);
 
 
 
 
 
-// function that iterates through studentList (saved to student variable) and then compares it to each object in revisedLearnerSubmission. If the id matches it adds their notes their score for that assignment and adds them together for their total score. It returns an object array with student_Id, assignment1: score, assignment2: score, and scoreSum.
+// function that iterates through studentList (saved to student variable) and then compares it to each object in revisedLearnerSubmission. If the id matches, it adds their  score for that assignment (their points, divided by the score for that assignment for 'assignments') and adds them together for their total points. It returns an object array with student_Id, assignment1: score, assignment2: score, and pointSum.
 
 
-function studentGrades(students, adjustedSubmissionsArray) {
+
+
+
+
+function studentGrades(students, adjustedSubmissionsArray, assignments) {
   let gradesArray = [];
   students.forEach(student => {
-    let scoreSum = 0;
+    let pointSum = 0;
     let studentObject = {};
     studentObject.id = student
     for(let i = 0; i < adjustedSubmissionsArray.length; i++){
       if(student == adjustedSubmissionsArray[i].learner_id){
-        studentObject[`Assignment ${adjustedSubmissionsArray[i].assignment_id}`] = adjustedSubmissionsArray[i].score;
-        scoreSum += adjustedSubmissionsArray[i].score;
+        assignments.forEach(as => {
+          if(as.id == adjustedSubmissionsArray[i].assignment_id){
+            let x = adjustedSubmissionsArray[i].assignment_id
+            studentObject[x] = parseFloat((adjustedSubmissionsArray[i].score / as.points).toFixed(3));            
+            pointSum += adjustedSubmissionsArray[i].score;
+
+          }
+
+        })
+        
       }
       if(i == adjustedSubmissionsArray.length - 1){
-        studentObject.scoreSum = scoreSum;
+        studentObject.pointSum = pointSum;
       }
 
     }
@@ -261,76 +275,49 @@ function studentGrades(students, adjustedSubmissionsArray) {
 
 }
 
-let studentGradesArray = studentGrades(students, adjustedSubmissionsArray);
-console.log(studentGradesArray);
-
-
-
-
-
-
-
-// function studentGrades(students, revisedSubmissions) {
-//   let gradesArray = [];
-//   students.forEach(student => {
-//     let scoreSum = 0;
-//     let studentObject = {};
-//     studentObject.id = student
-//     for(let i = 0; i < revisedSubmissions.length; i++){
-//       if(student == revisedSubmissions[i].learner_id){
-//         studentObject[`assignmentId${i}`] = [revisedSubmissions[i].assignment_id, revisedSubmissions[i].submission.score];
-//         scoreSum += revisedSubmissions[i].submission.score;
-//       }
-//       if(i == revisedSubmissions.length - 1){
-//         studentObject.scoreSum = scoreSum;
-//       }
-
-//     }
-//     gradesArray.push(studentObject);
-//   })
-//   return gradesArray;
-
-// }
-
-// let studentGradesArray = studentGrades(students, revisedSubmissions);
+// let studentGradesArray = studentGrades(students, adjustedSubmissionsArray, assignments);
 // console.log(studentGradesArray);
 
 
 
-/////////* function that iterates through revisedLearnerSubmission and and compares assignment_id with ids from objects in assignments. If they match make sure the submitted_at date is <= due_at and move on.
+
+
+
+
+// The main function will use course, ag and submissions as parameters(we will plug in CourseInfo, AssignmentGroup and LearnerSumbissions for the result variable and console log that). Inside it will use the helper functions I created, each relying on one or more of the previous. It will have one forEach loop that will take the array from the studentGrades() function and it will divide the piontSum by the totalSore value from the totalScoreValue() function and it will create an avg key to save it too, then it will delete the pointSum and push the object to 'result' array.
 
 
 
 
 
-/////////* function that checks submitted_at for each due assignment is before due date. if not return learner id and assignment id.*/
+function getLearnerData(course, ag, submissions) { 
+  courseIdCheck(course, ag);
+  studentList(submissions);
+  const assignmentArray = assignmentList(ag);
+  const assignments = previousAssignments(assignmentArray);
+  const totalScore = totalScoreValue(assignments, assignmentArray);
+  const revisedSubmissions = updatedLearnerSubmissions(submissions, assignments);
+  const adjustedSubmissionsArray = isItLate(revisedSubmissions, assignments);
+  let studentGradesArray = studentGrades(students, adjustedSubmissionsArray, assignments);
+  let result = [];
+
+  studentGradesArray.forEach(student => {
+      student.avg = student.pointSum / totalScore;
+      delete student.pointSum;
+      result.push(student);
+
+  })
 
 
-
-// function that returns array with sum of scores for each student from the function that returns student ids, for each
-//      assignment id from previously due assignments. Save to variable studentScoreSums.
-//      (This function should check the function for late assignments with student and assignment id and take off
-//      10% from that assignment score before totaling there scores.)
-
-//      
-
-
-function getLearnerData(course, ag, submissions) { // loop that returns the object array of students (const result)
-  const result = [];
-  let personObject = {};
-  for (let i = 0; i < students; i++) {
-    personObject.id = students[i];
-    //personObject.avg = 
-
-  }
 
 
   return result;
 }
 
-// const result = getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
+const result = getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
 
-// console.log(result);
+console.log(result);
+
 
 
 
