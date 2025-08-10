@@ -200,7 +200,7 @@ let revisedSubmissions = updatedLearnerSubmissions(LearnerSubmissions, assignmen
 console.log(revisedSubmissions);
 
 
-//////// function that iterates through revisedSubmissions and checks the assignment_id against the objects id in releventAssignments if they match it compares the submitted_at date from revisedSubmissions[i].submissions.submitted_at to releventAssignments[i].due_at and if the submitted at date is after the due at date it subtract 10% of the releventAssignments[i].points from revisedSubmissions[i].submissions.score. It creates a new object that looks like the objects in the learnerSubmissions or revisedSubmissions only shows learner_id, assignment_id, and score(with the corrected score for late projects) it then pushes that object to a new array called adjustedSubmissions.
+//////// function that iterates through revisedSubmissions and checks the assignment_id against the objects id in releventAssignments if they match it compares the submitted_at date from revisedSubmissions[i].submissions.submitted_at to releventAssignments[i].due_at and if the submitted at date is after the due at date it subtract 10% of the releventAssignments[i].points from revisedSubmissions[i].submissions.score. It creates a new object that looks like the objects in the learnerSubmissions or revisedSubmissions but only shows learner_id, assignment_id, and score(with the corrected score for late projects) it then pushes that object to a new array called adjustedSubmissions.
 
 function isItLate(revisedSubmissions, relevantAssignments){
   let adjustedSubmissions = [];
@@ -230,32 +230,7 @@ function isItLate(revisedSubmissions, relevantAssignments){
 
 console.log(`This is the adjusted Learner Submissions`);
 console.log(isItLate(revisedSubmissions, assignments));
-
-
-// function that iterates through revisedSubmissions and checks the assignment_id against the objects id in releventAssignments if they match it compares the submitted_at date from revisedSubmissions[i].submissions.submitted_at to releventAssignments[i].due_at and if the submitted at date is after the due at date it creates an object with: studentId, as_number, and adjusted_score (subtracts 10% of the releventAssignments[i].points from revisedSubmissions[i].submissions.score). It then pushes this to an late_scores array.
-
-// function isItLate(revisedSubmissions, relevantAssignments){
-//   let late_scores = [];
-//   for(let i = 0; i < revisedSubmissions.length; i++){
-//     relevantAssignments.forEach(as => {
-//       lateScoreObject = {};
-//       if(revisedSubmissions[i].learner_id == as.id){
-//         const dueDate = new Date(as.due_at);
-//         const subDate = new Date(revisedSubmissions[i].submitted_at);
-//         if(dueDate < subDate){
-//           lateScoreObject.studentID = revisedSubmissions[i].learner_id
-//           lateScore
-//            = revisedSubmissions[i].submissions.score - (as.score * 0.1);
-//         }
-//       }
-//     })
-//   }
-
-//   return adjustedSubmissions;
-// }
-
-
-
+let adjustedSubmissionsArray = isItLate(revisedSubmissions, assignments);
 
 
 
@@ -263,18 +238,19 @@ console.log(isItLate(revisedSubmissions, assignments));
 
 // function that iterates through studentList (saved to student variable) and then compares it to each object in revisedLearnerSubmission. If the id matches it adds their notes their score for that assignment and adds them together for their total score. It returns an object array with student_Id, assignment1: score, assignment2: score, and scoreSum.
 
-function studentGrades(students, revisedSubmissions) {
+
+function studentGrades(students, adjustedSubmissionsArray) {
   let gradesArray = [];
   students.forEach(student => {
     let scoreSum = 0;
     let studentObject = {};
     studentObject.id = student
-    for(let i = 0; i < revisedSubmissions.length; i++){
-      if(student == revisedSubmissions[i].learner_id){
-        studentObject[`assignmentId${i}`] = [revisedSubmissions[i].assignment_id, revisedSubmissions[i].submission.score];
-        scoreSum += revisedSubmissions[i].submission.score;
+    for(let i = 0; i < adjustedSubmissionsArray.length; i++){
+      if(student == adjustedSubmissionsArray[i].learner_id){
+        studentObject[`Assignment ${adjustedSubmissionsArray[i].assignment_id}`] = adjustedSubmissionsArray[i].score;
+        scoreSum += adjustedSubmissionsArray[i].score;
       }
-      if(i == revisedSubmissions.length - 1){
+      if(i == adjustedSubmissionsArray.length - 1){
         studentObject.scoreSum = scoreSum;
       }
 
@@ -285,8 +261,39 @@ function studentGrades(students, revisedSubmissions) {
 
 }
 
-let studentGradesArray = studentGrades(students, revisedSubmissions);
+let studentGradesArray = studentGrades(students, adjustedSubmissionsArray);
 console.log(studentGradesArray);
+
+
+
+
+
+
+
+// function studentGrades(students, revisedSubmissions) {
+//   let gradesArray = [];
+//   students.forEach(student => {
+//     let scoreSum = 0;
+//     let studentObject = {};
+//     studentObject.id = student
+//     for(let i = 0; i < revisedSubmissions.length; i++){
+//       if(student == revisedSubmissions[i].learner_id){
+//         studentObject[`assignmentId${i}`] = [revisedSubmissions[i].assignment_id, revisedSubmissions[i].submission.score];
+//         scoreSum += revisedSubmissions[i].submission.score;
+//       }
+//       if(i == revisedSubmissions.length - 1){
+//         studentObject.scoreSum = scoreSum;
+//       }
+
+//     }
+//     gradesArray.push(studentObject);
+//   })
+//   return gradesArray;
+
+// }
+
+// let studentGradesArray = studentGrades(students, revisedSubmissions);
+// console.log(studentGradesArray);
 
 
 
