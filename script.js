@@ -147,8 +147,9 @@ function previousAssignments(assignmentArray) {
 
 }
 
- let assignments = previousAssignments(assignmentArray);
+// let assignments = previousAssignments(assignmentArray);
 // console.log(`This is the relevent assignments: `, assignments);
+
 
 // function that returns total points possible for each assignment id returned from above function. 
 //     Save to variable 'totalAssignmentPoints'
@@ -161,28 +162,8 @@ function totalScoreValue(assignments){
   })
   return total;
 }
-let totalScore = totalScoreValue(assignments);
-console.log(`This is the total possible score for all assignments: ${totalScore}`);
-
-
-// function totalScoreValue(assignments, assignmentArray) {
-//   let total = 0;
-//   assignments.forEach(num => {
-//     for (let i = 0; i < assignmentArray.length; i++) {
-//       let assignmentX = assignmentArray[i]
-//       if (num.id == assignmentX.id) {
-//         total += assignmentX.points_possible
-//         break;
-//       }
-//     }
-//   });
-//   return total;
-
-// }
-
-// let totalScore = totalScoreValue(assignments, assignmentArray);
+// let totalScore = totalScoreValue(assignments);
 // console.log(`This is the total possible score for all assignments: ${totalScore}`);
-
 
 
 
