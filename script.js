@@ -200,13 +200,59 @@ let revisedSubmissions = updatedLearnerSubmissions(LearnerSubmissions, assignmen
 console.log(revisedSubmissions);
 
 
-// function that iterates through revisedSubmissions and checks the assignment_id against the objects id in releventAssignments if they match it compares the submitted_at date from revisedSubmissions[i].submissions.submitted_at to releventAssignments[i].due_at and if the submitted at date is after the due at date it subtract 10% of the releventAssignments[i].points from revisedSubmissions[i].submissions.score it then pushes that object to a new array called adjustedSubmissions.
+//////// function that iterates through revisedSubmissions and checks the assignment_id against the objects id in releventAssignments if they match it compares the submitted_at date from revisedSubmissions[i].submissions.submitted_at to releventAssignments[i].due_at and if the submitted at date is after the due at date it subtract 10% of the releventAssignments[i].points from revisedSubmissions[i].submissions.score. It creates a new object that looks like the objects in the learnerSubmissions or revisedSubmissions only shows learner_id, assignment_id, and score(with the corrected score for late projects) it then pushes that object to a new array called adjustedSubmissions.
 
 function isItLate(revisedSubmissions, relevantAssignments){
+  let adjustedSubmissions = [];
+  for(let i = 0; i < revisedSubmissions.length; i++){
+    relevantAssignments.forEach(as => {
+      let revisedObject = {};
+      if(revisedSubmissions[i].assignment_id == as.id){ 
+        const dueDate = new Date(as.due_at);
+        const subDate = new Date(revisedSubmissions[i].submission.submitted_at);
+        //console.log(`this is the dueDate: `, dueDate); // test
+        //console.log(`this is the subDate: `, subDate); // test
+        revisedObject.learner_id = revisedSubmissions[i].learner_id;
+        revisedObject.assignment_id = revisedSubmissions[i].assignment_id
+        if(dueDate < subDate){
+          revisedObject.score = revisedSubmissions[i].submission.score - (as.points * 0.1);
+          adjustedSubmissions.push(revisedObject);
+        } else{
+          revisedObject.score = revisedSubmissions[i].submission.score 
+          adjustedSubmissions.push(revisedObject);
+        }
 
+      }
+    }); 
+  }
+  return adjustedSubmissions;
 }
 
+console.log(`This is the adjusted Learner Submissions`);
+console.log(isItLate(revisedSubmissions, assignments));
 
+
+// function that iterates through revisedSubmissions and checks the assignment_id against the objects id in releventAssignments if they match it compares the submitted_at date from revisedSubmissions[i].submissions.submitted_at to releventAssignments[i].due_at and if the submitted at date is after the due at date it creates an object with: studentId, as_number, and adjusted_score (subtracts 10% of the releventAssignments[i].points from revisedSubmissions[i].submissions.score). It then pushes this to an late_scores array.
+
+// function isItLate(revisedSubmissions, relevantAssignments){
+//   let late_scores = [];
+//   for(let i = 0; i < revisedSubmissions.length; i++){
+//     relevantAssignments.forEach(as => {
+//       lateScoreObject = {};
+//       if(revisedSubmissions[i].learner_id == as.id){
+//         const dueDate = new Date(as.due_at);
+//         const subDate = new Date(revisedSubmissions[i].submitted_at);
+//         if(dueDate < subDate){
+//           lateScoreObject.studentID = revisedSubmissions[i].learner_id
+//           lateScore
+//            = revisedSubmissions[i].submissions.score - (as.score * 0.1);
+//         }
+//       }
+//     })
+//   }
+
+//   return adjustedSubmissions;
+// }
 
 
 
