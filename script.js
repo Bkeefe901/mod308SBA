@@ -78,7 +78,7 @@ const LearnerSubmissions = [
 
 
 
-// function that checks if courseInfo[id] == assignmentGroup[course_id] and throws error if not
+// function that checks if courseInfo.id == assignmentGroup.course_id and throws error if not
 
 function courseIdCheck(CourseInfo, AssignmentGroup) {
   try {
@@ -118,7 +118,7 @@ function assignmentList(AssignmentGroup) {
   return AssignmentGroup.assignments
 }
 
-// const assignmentArray = assignmentList(AssignmentGroup);
+ const assignmentArray = assignmentList(AssignmentGroup);
 // console.log(assignmentArray)
 
 
@@ -147,26 +147,38 @@ function previousAssignments(assignmentArray) {
 
 }
 
-// let assignments = previousAssignments(assignmentArray);
+ let assignments = previousAssignments(assignmentArray);
 // console.log(`This is the relevent assignments: `, assignments);
 
 // function that returns total points possible for each assignment id returned from above function. 
 //     Save to variable 'totalAssignmentPoints'
 
-function totalScoreValue(assignments, assignmentArray) {
+
+function totalScoreValue(assignments){
   let total = 0;
   assignments.forEach(num => {
-    for (let i = 0; i < assignmentArray.length; i++) {
-      let assignmentX = assignmentArray[i]
-      if (num.id == assignmentX.id) {
-        total += assignmentX.points_possible
-        break;
-      }
-    }
-  });
+    total += num.points;
+  })
   return total;
-
 }
+let totalScore = totalScoreValue(assignments);
+console.log(`This is the total possible score for all assignments: ${totalScore}`);
+
+
+// function totalScoreValue(assignments, assignmentArray) {
+//   let total = 0;
+//   assignments.forEach(num => {
+//     for (let i = 0; i < assignmentArray.length; i++) {
+//       let assignmentX = assignmentArray[i]
+//       if (num.id == assignmentX.id) {
+//         total += assignmentX.points_possible
+//         break;
+//       }
+//     }
+//   });
+//   return total;
+
+// }
 
 // let totalScore = totalScoreValue(assignments, assignmentArray);
 // console.log(`This is the total possible score for all assignments: ${totalScore}`);
@@ -195,8 +207,6 @@ function updatedLearnerSubmissions(LearnerSubmissions, assignments) {
   }
   return revisedLearnerSubmission;
 }
-
-
 
 // let revisedSubmissions = updatedLearnerSubmissions(LearnerSubmissions, assignments);
 // console.log(revisedSubmissions);
@@ -242,9 +252,6 @@ function isItLate(revisedSubmissions, relevantAssignments){
 
 
 
-
-
-
 function studentGrades(students, adjustedSubmissionsArray, assignments) {
   let gradesArray = [];
   students.forEach(student => {
@@ -277,10 +284,6 @@ function studentGrades(students, adjustedSubmissionsArray, assignments) {
 
 // let studentGradesArray = studentGrades(students, adjustedSubmissionsArray, assignments);
 // console.log(studentGradesArray);
-
-
-
-
 
 
 
