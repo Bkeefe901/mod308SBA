@@ -78,6 +78,53 @@ const LearnerSubmissions = [
 
 
 
+
+// The main function will use course, ag and submissions as parameters(we will plug in CourseInfo, AssignmentGroup and LearnerSumbissions for the result variable and console log that). Inside it will use the helper functions I created, each relying on one or more of the previous. It will have one forEach loop that will take the array from the studentGrades() function and it will divide the piontSum by the totalSore value from the totalScoreValue() function and it will create an avg key to save it too, then it will delete the pointSum and push the object to 'result' array.
+
+
+
+
+
+function getLearnerData(course, ag, submissions) { 
+  courseIdCheck(course, ag);
+  const students = studentList(submissions);
+  const assignmentArray = assignmentList(ag);
+  const assignments = previousAssignments(assignmentArray);
+  const totalScore = totalScoreValue(assignments, assignmentArray);
+  const revisedSubmissions = updatedLearnerSubmissions(submissions, assignments);
+  const adjustedSubmissionsArray = isItLate(revisedSubmissions, assignments);
+  let studentGradesArray = studentGrades(students, adjustedSubmissionsArray, assignments);
+  let result = [];
+
+  studentGradesArray.forEach(student => {
+      student.avg = student.pointSum / totalScore;
+      delete student.pointSum;
+      result.push(student);
+
+  })
+
+
+
+
+  return result;
+}
+
+const result = getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
+
+console.log(result);
+
+
+
+
+
+
+
+
+//----------------------- Helper Functions: ------------------------------------------------------------------------//
+
+
+
+
 // function that checks if courseInfo.id == assignmentGroup.course_id and throws error if not
 
 function courseIdCheck(CourseInfo, AssignmentGroup) {
@@ -90,7 +137,7 @@ function courseIdCheck(CourseInfo, AssignmentGroup) {
   }
 
 }
-courseIdCheck(CourseInfo, AssignmentGroup);
+//courseIdCheck(CourseInfo, AssignmentGroup);
 
 
 // function that returns array of unique different student ids. 
@@ -106,10 +153,6 @@ function studentList(LearnerSubmissions) {
   return studentArray;
 
 }
-let students = studentList(LearnerSubmissions);
-console.log(students);
-
-
 
 
 // function that returns the assignments array from AssignmentGroup save to variable assignmentArray
@@ -118,13 +161,7 @@ function assignmentList(AssignmentGroup) {
   return AssignmentGroup.assignments
 }
 
- const assignmentArray = assignmentList(AssignmentGroup);
 // console.log(assignmentArray)
-
-
-
-
-
 
 // function that checks AssignmentGroup[assignments[due_at]] for each assignment and returns  an array of objects containing assignment[id], and date due only for the assignments whose due_at date was before today. save to variable 'relevantAssignments'
 
@@ -265,61 +302,3 @@ function studentGrades(students, adjustedSubmissionsArray, assignments) {
 
 // let studentGradesArray = studentGrades(students, adjustedSubmissionsArray, assignments);
 // console.log(studentGradesArray);
-
-
-
-// The main function will use course, ag and submissions as parameters(we will plug in CourseInfo, AssignmentGroup and LearnerSumbissions for the result variable and console log that). Inside it will use the helper functions I created, each relying on one or more of the previous. It will have one forEach loop that will take the array from the studentGrades() function and it will divide the piontSum by the totalSore value from the totalScoreValue() function and it will create an avg key to save it too, then it will delete the pointSum and push the object to 'result' array.
-
-
-
-
-
-function getLearnerData(course, ag, submissions) { 
-  courseIdCheck(course, ag);
-  studentList(submissions);
-  const assignmentArray = assignmentList(ag);
-  const assignments = previousAssignments(assignmentArray);
-  const totalScore = totalScoreValue(assignments, assignmentArray);
-  const revisedSubmissions = updatedLearnerSubmissions(submissions, assignments);
-  const adjustedSubmissionsArray = isItLate(revisedSubmissions, assignments);
-  let studentGradesArray = studentGrades(students, adjustedSubmissionsArray, assignments);
-  let result = [];
-
-  studentGradesArray.forEach(student => {
-      student.avg = student.pointSum / totalScore;
-      delete student.pointSum;
-      result.push(student);
-
-  })
-
-
-
-
-  return result;
-}
-
-const result = getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
-
-console.log(result);
-
-
-
-
-
-
-// Expected Answer:
-
-//  const result = [
-//     {
-//       id: 125,
-//       avg: 0.985, // (47 + 150) / (50 + 150)
-//       1: 0.94, // 47 / 50
-//       2: 1.0 // 150 / 150
-//     },
-//     {
-//       id: 132,
-//       avg: 0.82, // (39 + 125) / (50 + 150)
-//       1: 0.78, // 39 / 50
-//       2: 0.833 // late: (140 - 15) / 150
-//     }
-//   ];
